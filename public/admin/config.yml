@@ -1,0 +1,237 @@
+backend:
+  name: github
+  repo: rayardika/portofolio-ray2
+  branch: main
+  base_url: http://localhost:3000
+  auth_endpoint: api/auth
+
+local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+locale: "id"
+
+collections:
+  - name: "featured_projects"
+    label: "1. Featured Projects (Proyek Unggulan)"
+    files:
+      - name: "featured_projects_data"
+        label: "Daftar Featured Projects (Slider Studiova)"
+        file: "content/featured-projects.json"
+        format: "json"
+        fields:
+          - { label: "Judul Bagian", name: "sectionTitle", widget: "string" }
+          - { label: "Subjudul Bagian", name: "sectionSubtitle", widget: "text" }
+          - label: "Daftar Proyek Unggulan"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.featuredOrder}}. {{fields.title}} ({{fields.status}})"
+            fields:
+              - { label: "ID Unik (Slug)", name: "id", widget: "string" }
+              - { label: "Nama Proyek", name: "title", widget: "string" }
+              - { label: "Klien / Instansi", name: "client", widget: "string" }
+              - { label: "Periode Pengerjaan", name: "period", widget: "string" }
+              - { label: "Status Proyek", name: "status", widget: "select", options: ["Live in Production", "In Development", "Delivered Aug 2026", "Completed", "Archived"] }
+              - { label: "Kategori", name: "category", widget: "string" }
+              - { label: "Ringkasan Proyek", name: "summary", widget: "text" }
+              - label: "Poin Pencapaian Utama (Highlights)"
+                name: "highlights"
+                widget: "list"
+                field: { label: "Poin", name: "point", widget: "text" }
+              - label: "Tech Stack"
+                name: "stack"
+                widget: "list"
+                field: { label: "Teknologi", name: "tech", widget: "string" }
+              - { label: "Gambar Preview / Screenshot", name: "image", widget: "image", required: false }
+              - { label: "URL Live Demo", name: "liveUrl", widget: "string", required: false }
+              - { label: "URL Repository GitHub", name: "repoUrl", widget: "string", required: false }
+              - { label: "Urutan Tampil", name: "featuredOrder", widget: "number", value_type: "int", default: 1 }
+
+  - name: "projects"
+    label: "2. Projects (Semua Proyek)"
+    files:
+      - name: "projects_data"
+        label: "Arsip Lengkap Proyek"
+        file: "content/projects.json"
+        format: "json"
+        fields:
+          - { label: "Judul Bagian", name: "sectionTitle", widget: "string" }
+          - { label: "Subjudul Bagian", name: "sectionSubtitle", widget: "text" }
+          - label: "Daftar Semua Proyek"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}} ({{fields.category}} - {{fields.status}})"
+            fields:
+              - { label: "ID Unik (Slug)", name: "id", widget: "string" }
+              - { label: "Nama Proyek", name: "title", widget: "string" }
+              - { label: "Peran (Role)", name: "role", widget: "string" }
+              - { label: "Klien / Organisasi", name: "client", widget: "string" }
+              - { label: "Periode", name: "period", widget: "string" }
+              - { label: "Status", name: "status", widget: "string" }
+              - { label: "Kategori Filter Utama", name: "category", widget: "select", options: ["Laravel", "Next.js", "Full-Stack", "Backend API"] }
+              - { label: "Ringkasan", name: "summary", widget: "text" }
+              - label: "Hasil Kerja (Deliverables)"
+                name: "deliverables"
+                widget: "list"
+                field: { label: "Deliverable", name: "item", widget: "text" }
+              - label: "Tech Stack"
+                name: "stack"
+                widget: "list"
+                field: { label: "Teknologi", name: "tech", widget: "string" }
+              - { label: "Gambar Screenshot", name: "image", widget: "image", required: false }
+              - { label: "URL Live Website", name: "liveUrl", widget: "string", required: false }
+              - { label: "URL Repository", name: "repoUrl", widget: "string", required: false }
+
+  - name: "experience"
+    label: "3. Experience & Education"
+    files:
+      - name: "experience_data"
+        label: "Pengalaman Kerja & Pendidikan"
+        file: "content/experience.json"
+        format: "json"
+        fields:
+          - { label: "Judul Bagian", name: "sectionTitle", widget: "string" }
+          - { label: "Subjudul Bagian", name: "sectionSubtitle", widget: "text" }
+          - label: "Daftar Pengalaman (Experience)"
+            name: "experiences"
+            widget: "list"
+            summary: "{{fields.role}} - {{fields.organization}} ({{fields.period}})"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Posisi / Peran", name: "role", widget: "string" }
+              - { label: "Instansi / Perusahaan", name: "organization", widget: "string" }
+              - { label: "Lokasi", name: "location", widget: "string" }
+              - { label: "Periode", name: "period", widget: "string" }
+              - { label: "Tipe Pekerjaan", name: "type", widget: "string" }
+              - label: "Rincian Tanggung Jawab & Pencapaian"
+                name: "bullets"
+                widget: "list"
+                field: { label: "Poin", name: "bullet", widget: "text" }
+              - label: "Teknologi yang Digunakan"
+                name: "stack"
+                widget: "list"
+                field: { label: "Teknologi", name: "tech", widget: "string" }
+          - label: "Daftar Pendidikan (Education)"
+            name: "education"
+            widget: "list"
+            summary: "{{fields.degree}} - {{fields.institution}}"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Universitas / Institusi", name: "institution", widget: "string" }
+              - { label: "Gelar & Jurusan", name: "degree", widget: "string" }
+              - { label: "IPK / GPA", name: "gpa", widget: "string" }
+              - { label: "Periode Tahun", name: "period", widget: "string" }
+              - { label: "Catatan Akademik", name: "notes", widget: "text" }
+
+  - name: "certifications"
+    label: "4. Certifications & Training"
+    files:
+      - name: "certifications_data"
+        label: "Daftar Sertifikasi & Pelatihan"
+        file: "content/certifications.json"
+        format: "json"
+        fields:
+          - { label: "Judul Bagian", name: "sectionTitle", widget: "string" }
+          - { label: "Subjudul Bagian", name: "sectionSubtitle", widget: "text" }
+          - label: "Daftar Sertifikasi"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}} - {{fields.issuer}} ({{fields.date}})"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Nama Sertifikasi / Pelatihan", name: "title", widget: "string" }
+              - { label: "Lembaga Penerbit (Issuer)", name: "issuer", widget: "string" }
+              - { label: "Tahun / Tanggal Terbit", name: "date", widget: "string" }
+              - { label: "Kategori", name: "category", widget: "string" }
+              - { label: "Nomor Kredensial (Opsional)", name: "credentialId", widget: "string", required: false }
+              - { label: "URL Verifikasi Kredensial (Opsional)", name: "credentialUrl", widget: "string", required: false }
+              - { label: "File / Gambar Sertifikat (Opsional)", name: "certificateFile", widget: "file", required: false }
+              - { label: "Deskripsi Kompetensi", name: "description", widget: "text" }
+
+  - name: "capabilities"
+    label: "5. Services & Technical Skills"
+    files:
+      - name: "capabilities_data"
+        label: "Kapabilitas Layanan & Keahlian Teknis"
+        file: "content/capabilities.json"
+        format: "json"
+        fields:
+          - { label: "Judul Bagian", name: "sectionTitle", widget: "string" }
+          - { label: "Subjudul Bagian", name: "sectionSubtitle", widget: "text" }
+          - label: "Daftar Layanan / Kapabilitas (Tab Studiova)"
+            name: "services"
+            widget: "list"
+            summary: "{{fields.number}} - {{fields.title}}"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Nomor (01, 02, dst.)", name: "number", widget: "string" }
+              - { label: "Judul Layanan", name: "title", widget: "string" }
+              - { label: "Deskripsi", name: "description", widget: "text" }
+              - label: "Cakupan Teknis (Deliverables)"
+                name: "deliverables"
+                widget: "list"
+                field: { label: "Item", name: "item", widget: "string" }
+              - { label: "Cuplikan Kode / Arsitektur", name: "codePreview", widget: "text" }
+          - label: "Kelompok Keahlian Teknis (Skill Groups)"
+            name: "skillGroups"
+            widget: "list"
+            summary: "{{fields.category}}"
+            fields:
+              - { label: "Nama Kategori", name: "category", widget: "string" }
+              - label: "Daftar Skill"
+                name: "skills"
+                widget: "list"
+                field: { label: "Skill", name: "skill", widget: "string" }
+
+  - name: "profile"
+    label: "6. Profil, Hero & Statistik"
+    files:
+      - name: "profile_data"
+        label: "Data Profil Utama & Hero Banner"
+        file: "content/profile.json"
+        format: "json"
+        fields:
+          - { label: "Nama Lengkap", name: "name", widget: "string" }
+          - { label: "Judul Besar Hero (Display Title)", name: "displayTitle", widget: "string" }
+          - { label: "Peran / Jabatan Utama", name: "role", widget: "string" }
+          - { label: "Lokasi", name: "location", widget: "string" }
+          - { label: "Nomor Telepon / WhatsApp", name: "phone", widget: "string" }
+          - { label: "Alamat Email", name: "email", widget: "string" }
+          - { label: "URL LinkedIn", name: "linkedin", widget: "string" }
+          - { label: "URL GitHub", name: "github", widget: "string" }
+          - { label: "File CV (PDF)", name: "cvPath", widget: "file" }
+          - { label: "Teks Pengantar Hero", name: "heroSummary", widget: "text" }
+          - { label: "Kata Kunci Highlight Hero", name: "heroHighlight", widget: "string" }
+          - { label: "Judul Bagian 01 (Overview)", name: "aboutHeading", widget: "string" }
+          - { label: "Deskripsi Bagian 01 (Ringkasan Profesional)", name: "aboutDescription", widget: "text" }
+          - { label: "Video Latar Hero (MP4 Opsional)", name: "heroBackgroundVideo", widget: "file", required: false }
+          - { label: "Gambar Latar Hero (Opsional)", name: "heroBackgroundImage", widget: "image", required: false }
+          - { label: "Foto Avatar Profil (Bulat)", name: "avatarImage", widget: "image", required: false }
+          - label: "Statistik Terverifikasi (Bagian 01)"
+            name: "stats"
+            widget: "list"
+            summary: "{{fields.value}}{{fields.suffix}} - {{fields.label}}"
+            fields:
+              - { label: "Angka Utama", name: "value", widget: "string" }
+              - { label: "Akhiran (Suffix)", name: "suffix", widget: "string", required: false }
+              - { label: "Keterangan Fakta", name: "label", widget: "string" }
+
+  - name: "faq"
+    label: "7. FAQ (Tanya Jawab)"
+    files:
+      - name: "faq_data"
+        label: "Daftar Pertanyaan Umum"
+        file: "content/faq.json"
+        format: "json"
+        fields:
+          - { label: "Judul Bagian", name: "sectionTitle", widget: "string" }
+          - { label: "Subjudul Bagian", name: "sectionSubtitle", widget: "text" }
+          - label: "Daftar Pertanyaan & Jawaban"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.question}}"
+            fields:
+              - { label: "Pertanyaan", name: "question", widget: "string" }
+              - { label: "Jawaban", name: "answer", widget: "text" }
+

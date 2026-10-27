@@ -1,0 +1,35 @@
+{
+  "name": "Ray Ardika Raihan",
+  "displayTitle": "Ray Ardika",
+  "role": "Full-Stack Web Developer | Laravel & Next.js",
+  "location": "South Tangerang, Indonesia",
+  "phone": "+62 813-4855-8894",
+  "email": "rayardika18@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/ray-ardika-raihan/",
+  "github": "https://github.com/rayardika",
+  "cvPath": "/Ray-Ardika-Raihan-CV.pdf",
+  "heroSummary": "Building responsive Laravel and Next.js web applications for operational workflows, QR-based journeys, and digital platforms.",
+  "heroHighlight": "Laravel and Next.js",
+  "aboutHeading": "High quality web engineering solutions you can trust.",
+  "aboutDescription": "Full-stack developer experienced in delivering responsive Laravel and Next.js applications for operational users. Built authenticated multi-role workflows, administrative dashboards, REST APIs, QR-based user journeys, inventory systems, and payment integrations.",
+  "heroBackgroundVideo": "/assets/images/backgrounds/banner-video.mp4",
+  "heroBackgroundImage": "",
+  "avatarImage": "/assets/images/profile/avatar-1.png",
+  "stats": [
+    {
+      "value": "3",
+      "suffix": "+",
+      "label": "Production & operational web systems built end-to-end"
+    },
+    {
+      "value": "3.86",
+      "suffix": "/4.00",
+      "label": "GPA Bachelor of Computer Science (S.Kom), UBSI (2022 - 2026)"
+    },
+    {
+      "value": "3",
+      "suffix": "+",
+      "label": "Competency certifications (BNSP, Google IT Support, UBSI)"
+    }
+  ]
+}

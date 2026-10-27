@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Decap CMS Admin | Ray Ardika Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Manrope", sans-serif;
+        margin: 0;
+        background: #f4f8fa;
+      }
+      .studiova-admin-bar {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        z-index: 99999;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        background: #1f2a2e;
+        color: #ffffff;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 2px solid #c1ff72;
+        box-shadow: 0 12px 28px rgba(31, 42, 46, 0.28);
+        font-size: 13px;
+        align-items: center;
+      }
+      .studiova-admin-bar a {
+        color: #1f2a2e;
+        background: #c1ff72;
+        text-decoration: none;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 999px;
+        transition: opacity 0.15s ease;
+      }
+      .studiova-admin-bar a.secondary {
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+      }
+      .studiova-admin-bar a:hover {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <div class="studiova-admin-bar" role="region" aria-label="Pintasan Admin Portofolio">
+      <span>Mode Admin Decap CMS (GitHub Login)</span>
+      <a href="/admin/studio">Buka Studio Editor Lokal</a>
+      <a href="/api/auth?setup=1" class="secondary">Konfigurasi GitHub OAuth</a>
+      <a href="/" class="secondary">Lihat Portofolio</a>
+    </div>
+  </body>
+</html>
+

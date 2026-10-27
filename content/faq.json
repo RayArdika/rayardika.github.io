@@ -1,0 +1,23 @@
+{
+  "sectionTitle": "Pertanyaan terkait kolaborasi",
+  "sectionSubtitle": "Informasi teknis mengenai cakupan pekerjaan, teknologi yang digunakan, dan alur serah terima proyek.",
+  "items": [
+    {
+      "question": "Teknologi utama apa yang Anda gunakan untuk membangun proyek baru?",
+      "answer": "Saya menggunakan Laravel (PHP) dan MySQL untuk sistem informasi operasional, ERP, atau aplikasi dengan logika bisnis kompleks, serta Next.js, React, TypeScript, dan MariaDB/MySQL untuk aplikasi web interaktif modern. Pemilihan arsitektur disesuaikan dengan kebutuhan tim dan target operasional Anda."
+    },
+    {
+      "question": "Apakah Anda menangani proses deployment hingga aplikasi siap digunakan di server produksi?",
+      "answer": "Ya. Seperti pada proyek SPMS Lapas Empat Lawang, saya menangani konfigurasi server hosting, pengaturan domain, sertifikat SSL/HTTPS, basis data produksi, pengiriman email via SMTP, hingga penjadwalan cron/scheduled jobs serta pemeliharaan pasca-peluncuran."
+    },
+    {
+      "question": "Apakah Anda berpengalaman mengintegrasikan payment gateway lokal seperti QRIS?",
+      "answer": "Ya. Pada platform Fotodarikamu, saya mengintegrasikan pembayaran QRIS melalui Midtrans dan DOKU lengkap dengan endpoint webhook untuk memverifikasi serta memperbarui status transaksi secara otomatis."
+    },
+    {
+      "question": "Apakah Anda tersedia untuk proyek full-stack maupun riset AI dan Computer Vision?",
+      "answer": "Ya. Selain pengembangan aplikasi web full-stack menggunakan Laravel dan Next.js, saya juga berpengalaman merancang model deep learning berbasis PyTorch seperti U-Net dengan attention mechanism untuk segmentasi citra dan otomasi ekstraksi dokumen."
+    }
+  ]
+}
+

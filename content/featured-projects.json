@@ -1,0 +1,116 @@
+{
+  "sectionTitle": "Featured projects",
+  "sectionSubtitle": "Exploring operational web applications, event digital platforms, and production inventory systems built with Laravel and Next.js.",
+  "items": [
+    {
+      "id": "spms-lapas-empat-lawang",
+      "title": "SPMS Lapas Empat Lawang",
+      "client": "Lembaga Pemasyarakatan Kelas IIB Empat Lawang, South Sumatra",
+      "period": "Jul 2026 - Present",
+      "status": "Live in Production",
+      "category": "Operational Web Application",
+      "summary": "Developed and deployed a Laravel/MySQL operational web application supporting QR-based roll calls, location-assisted security checks, housing records, approvals, and reports.",
+      "highlights": [
+        "Developed and deployed a Laravel/MySQL operational web application supporting QR-based roll calls, location-assisted security checks, housing records, approvals, and reports.",
+        "Developed responsive desktop/mobile interfaces for officers and administrators, connecting QR and GPS-assisted workflows to application data.",
+        "Configured and maintained production hosting, domain, HTTPS, MySQL, SMTP, and scheduled jobs; supported post-launch improvements."
+      ],
+      "stack": ["Laravel", "MySQL", "QR Workflows", "GPS"],
+      "image": "/assets/images/portfolio/portfolio-img-1.jpg",
+      "liveUrl": "",
+      "repoUrl": "",
+      "featuredOrder": 1
+    },
+    {
+      "id": "fotodarikamu",
+      "title": "Fotodarikamu",
+      "client": "Event Digital Camera Platform",
+      "period": "Aug 2026 - Present",
+      "status": "In Development",
+      "category": "Next.js Event Platform",
+      "summary": "Developing an event-based digital camera platform with Next.js, React, TypeScript, and MySQL/MariaDB with QR-code guest camera flows and Midtrans/DOKU QRIS payments.",
+      "highlights": [
+        "Developing an event-based digital camera platform with Next.js, React, TypeScript, and MySQL/MariaDB.",
+        "Built user-facing event and QR-code guest camera flows plus an administration dashboard for account and event management.",
+        "Integrated QRIS payment flows through Midtrans/DOKU and transaction-status webhooks."
+      ],
+      "stack": ["Next.js", "TypeScript", "Midtrans/DOKU", "MariaDB"],
+      "image": "/assets/images/portfolio/portfolio-img-2.jpg",
+      "liveUrl": "",
+      "repoUrl": "",
+      "featuredOrder": 2
+    },
+    {
+      "id": "kantong-jamu",
+      "title": "Kantong Jamu",
+      "client": "Production & Inventory System",
+      "period": "Mar 2026 - Aug 2026",
+      "status": "Delivered Aug 2026",
+      "category": "Manufacturing & Inventory",
+      "summary": "Built a Laravel/MySQL production and inventory management application integrating production records, stock tracking, Bill of Materials, QC approval, and activity-based payroll.",
+      "highlights": [
+        "Built a Laravel/MySQL production and inventory management application integrating production records, stock tracking, Bill of Materials, and distribution.",
+        "Developed operational business logic for QC approval and activity-based payroll calculations; tested and refined application features."
+      ],
+      "stack": ["Laravel", "MySQL", "Bill of Materials", "Payroll Logic"],
+      "image": "/assets/images/portfolio/portfolio-img-3.jpg",
+      "liveUrl": "",
+      "repoUrl": "",
+      "featuredOrder": 3
+    },
+    {
+      "id": "spms-security-module",
+      "title": "QR & GPS Officer Roll Call",
+      "client": "Lapas Kelas IIB Empat Lawang",
+      "period": "Jul 2026 - Present",
+      "status": "Live in Production",
+      "category": "Security & Attendance",
+      "summary": "Mobile-ready officer roll call and location-verified security patrol workflow integrated into the central SPMS dashboard.",
+      "highlights": [
+        "Connected dynamic QR checkpoints and GPS location verification directly to officer duty rosters.",
+        "Automated daily supervisor approval and PDF/tabular operational reporting."
+      ],
+      "stack": ["Laravel", "QR Code", "Geolocation API", "MySQL"],
+      "image": "/assets/images/portfolio/portfolio-img-4.jpg",
+      "liveUrl": "",
+      "repoUrl": "",
+      "featuredOrder": 4
+    },
+    {
+      "id": "fotodarikamu-qris",
+      "title": "QRIS Webhook Payment Engine",
+      "client": "Fotodarikamu",
+      "period": "Aug 2026 - Present",
+      "status": "In Development",
+      "category": "Payment Integration",
+      "summary": "Automated QRIS checkout and asynchronous webhook reconciliation using Midtrans and DOKU for instant event activation.",
+      "highlights": [
+        "Built Midtrans and DOKU QRIS payment initiation and signature-verified status webhooks.",
+        "Automated event quota provisioning upon settlement notification."
+      ],
+      "stack": ["Next.js API", "Midtrans", "DOKU", "TypeScript"],
+      "image": "/assets/images/portfolio/portfolio-img-5.jpg",
+      "liveUrl": "",
+      "repoUrl": "",
+      "featuredOrder": 5
+    },
+    {
+      "id": "kantong-jamu-bom",
+      "title": "BoM & QC Payroll Engine",
+      "client": "Kantong Jamu",
+      "period": "Mar 2026 - Aug 2026",
+      "status": "Delivered Aug 2026",
+      "category": "Operations Logic",
+      "summary": "Multi-stage Bill of Materials stock deduction paired with Quality Control approval gates and activity-based worker payroll.",
+      "highlights": [
+        "Implemented automatic raw-material deduction based on Bill of Materials recipes.",
+        "Linked approved QC production batches directly to activity-based payroll calculations."
+      ],
+      "stack": ["Laravel", "MySQL", "Blade", "Tailwind CSS"],
+      "image": "/assets/images/portfolio/portfolio-img-6.jpg",
+      "liveUrl": "",
+      "repoUrl": "",
+      "featuredOrder": 6
+    }
+  ]
+}

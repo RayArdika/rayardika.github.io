@@ -1,26 +1,54 @@
-@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+html {
+  scroll-behavior: smooth;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:focus-visible {
+  outline: 2px solid #1F2A2E;
+  outline-offset: 3px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.bg-dark :focus-visible,
+.banner-section :focus-visible,
+.footer :focus-visible {
+  outline: 2px solid #C1FF72;
+  outline-offset: 3px;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Keep [data-aos] elements visible during React re-renders so state changes never blank the page */
+[data-aos^=fade][data-aos^=fade],
+[data-aos^=zoom][data-aos^=zoom] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Fallback layout before Owl Carousel JS finishes initializing */
+.owl-carousel:not(.owl-loaded) {
+  display: flex !important;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 0 24px;
+}
+
+.owl-carousel:not(.owl-loaded) > .item {
+  flex: 0 0 340px;
+  max-width: 85vw;
+}
+
+/* Native dialog styling matching Studiova cards */
+dialog.studiova-modal {
+  border: 1px solid rgba(31, 42, 46, 0.15);
+  border-radius: 16px;
+  padding: 0;
+  max-width: 760px;
+  width: calc(100% - 32px);
+  background: #ffffff;
+  color: #1F2A2E;
+  box-shadow: 0 24px 64px rgba(31, 42, 46, 0.28);
+}
+
+dialog.studiova-modal::backdrop {
+  background: rgba(31, 42, 46, 0.72);
+  backdrop-filter: blur(4px);
 }

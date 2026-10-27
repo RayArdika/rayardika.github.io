@@ -1,0 +1,52 @@
+{
+  "sectionTitle": "What I do",
+  "sectionSubtitle": "Delivering full-stack web applications, multi-role operational workflows, QR/GPS integrations, and production deployments.",
+  "services": [
+    {
+      "id": "cap-operational-apps",
+      "number": "01",
+      "title": "Laravel Operational Systems",
+      "description": "Developing multi-role authenticated web applications, inventory & Bill of Materials (BoM) tracking, QC approvals, and activity-based payroll calculations with Laravel and MySQL.",
+      "deliverables": ["/assets/images/services/services-img-1.jpg", "Multi-Role Workflows", "Inventory & BoM", "Automated Reporting"],
+      "codePreview": "/assets/images/services/services-img-1.jpg"
+    },
+    {
+      "id": "cap-nextjs-platforms",
+      "number": "02",
+      "title": "Next.js & TypeScript Web Apps",
+      "description": "Building responsive user-facing platforms, interactive QR-code guest camera flows, and administrative dashboards using Next.js, React, TypeScript, and Tailwind CSS.",
+      "deliverables": ["/assets/images/services/services-img-2.jpg", "Next.js App Router", "TypeScript", "Admin Dashboards"],
+      "codePreview": "/assets/images/services/services-img-2.jpg"
+    },
+    {
+      "id": "cap-qr-gps-payments",
+      "number": "03",
+      "title": "QR, GPS & QRIS Webhooks",
+      "description": "Connecting physical operations to digital databases through QR-based roll calls, GPS-assisted security checks, and Midtrans/DOKU QRIS payment webhooks.",
+      "deliverables": ["/assets/images/services/services-img-3.jpg", "Midtrans & DOKU QRIS", "Payment Webhooks", "QR & GPS Flows"],
+      "codePreview": "/assets/images/services/services-img-3.jpg"
+    },
+    {
+      "id": "cap-deployment-infra",
+      "number": "04",
+      "title": "Production Hosting & Delivery",
+      "description": "Configuring and maintaining production hosting, custom domains, HTTPS certificates, MySQL/MariaDB databases, SMTP email delivery, and scheduled cron jobs.",
+      "deliverables": ["/assets/images/services/services-img-4.jpg", "Hostinger & Linux", "HTTPS & SMTP", "Scheduled Jobs"],
+      "codePreview": "/assets/images/services/services-img-4.jpg"
+    }
+  ],
+  "skillGroups": [
+    {
+      "category": "Frontend",
+      "skills": ["Next.js", "React", "TypeScript", "JavaScript", "Blade", "HTML/CSS", "Tailwind CSS"]
+    },
+    {
+      "category": "Backend",
+      "skills": ["PHP", "Laravel", "REST APIs", "Authentication", "QR Workflows", "Payment Webhooks"]
+    },
+    {
+      "category": "Data & Delivery",
+      "skills": ["MySQL/MariaDB", "Git/GitHub", "Vite", "Hostinger", "HTTPS", "Testing"]
+    }
+  ]
+}

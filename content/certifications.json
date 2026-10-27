@@ -1,0 +1,39 @@
+{
+  "sectionTitle": "Certifications & training",
+  "sectionSubtitle": "Verified national competency certifications and professional training in program analysis, IT support, and software development.",
+  "items": [
+    {
+      "id": "cert-bnsp-program-analyst",
+      "title": "BNSP Program Analyst Competency Certification",
+      "issuer": "Badan Nasional Sertifikasi Profesi (BNSP)",
+      "date": "2025",
+      "category": "National Competency",
+      "credentialId": "BNSP-2025",
+      "credentialUrl": "",
+      "certificateFile": "/assets/images/team/team-img-1.jpg",
+      "description": "National competency certification validating system requirements analysis, software architecture specification, database design, and application evaluation."
+    },
+    {
+      "id": "cert-google-it-support",
+      "title": "Google IT Support Professional Certificate",
+      "issuer": "Google / Coursera",
+      "date": "Sep 2026",
+      "category": "Professional Certificate",
+      "credentialId": "GOOGLE-IT-2026",
+      "credentialUrl": "",
+      "certificateFile": "/assets/images/team/team-img-2.jpg",
+      "description": "Professional certification covering computer networking, operating systems, system administration, IT infrastructure services, and security."
+    },
+    {
+      "id": "cert-ubsi-bootcamp",
+      "title": "IT Bootcamp: Software Development",
+      "issuer": "Universitas Bina Sarana Informatika",
+      "date": "2024",
+      "category": "Software Bootcamp",
+      "credentialId": "UBSI-2024",
+      "credentialUrl": "",
+      "certificateFile": "/assets/images/team/team-img-3.jpg",
+      "description": "Intensive software development bootcamp focused on full-stack web engineering, relational database modeling, Git workflow, and deployment."
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "sectionTitle": "Pengalaman kerja & pendidikan",
+  "sectionSubtitle": "Rekam jejak pengembangan sistem berbasis proyek pada instansi dan bisnis, didukung latar belakang akademik Ilmu Komputer.",
+  "experiences": [
+    {
+      "id": "exp-lapas-empat-lawang",
+      "role": "Full-Stack Developer (Project-Based)",
+      "organization": "Lembaga Pemasyarakatan Kelas IIB Empat Lawang",
+      "location": "Sumatera Selatan, Indonesia",
+      "period": "Jul 2026 - Sekarang",
+      "type": "Production Deployment",
+      "bullets": [
+        "Mengembangkan dan men-deploy aplikasi web operasional Laravel/MySQL yang mendukung apel berbasis QR, pemeriksaan keamanan berbantuan lokasi, catatan hunian, persetujuan, dan pelaporan.",
+        "Merancang antarmuka desktop dan mobile yang responsif untuk petugas serta administrator guna menghubungkan alur kerja QR dan GPS ke data aplikasi.",
+        "Mengonfigurasi serta memelihara hosting produksi, domain, HTTPS, MySQL, SMTP, dan scheduled jobs; menangani peningkatan fitur pasca-peluncuran."
+      ],
+      "stack": ["Laravel", "MySQL", "QR Workflows", "GPS", "Hostinger", "HTTPS", "SMTP"]
+    },
+    {
+      "id": "exp-fotodarikamu",
+      "role": "Full-Stack Developer (Project-Based)",
+      "organization": "Fotodarikamu",
+      "location": "Indonesia",
+      "period": "Agu 2026 - Sekarang (In Development)",
+      "type": "Active Development",
+      "bullets": [
+        "Mengembangkan platform kamera digital berbasis event menggunakan Next.js, React, TypeScript, dan MySQL/MariaDB.",
+        "Membangun alur acara menghadap pengguna (user-facing) dan kamera tamu berbasis kode QR, dilengkapi dasbor administrasi untuk manajemen akun serta event.",
+        "Mengintegrasikan alur pembayaran QRIS melalui Midtrans dan DOKU beserta webhook status transaksi."
+      ],
+      "stack": ["Next.js", "React", "TypeScript", "MySQL/MariaDB", "Midtrans", "DOKU"]
+    },
+    {
+      "id": "exp-kantong-jamu",
+      "role": "Full-Stack Web Developer (Project-Based)",
+      "organization": "Kantong Jamu",
+      "location": "Indonesia",
+      "period": "Mar 2026 - Agu 2026",
+      "type": "Completed Project",
+      "bullets": [
+        "Membangun aplikasi manajemen produksi dan inventori Laravel/MySQL yang mengintegrasikan catatan produksi, pelacakan stok, Bill of Materials (BoM), dan distribusi.",
+        "Mengembangkan logika bisnis operasional untuk persetujuan QC dan perhitungan penggajian berbasis aktivitas; menguji serta menyempurnakan fitur aplikasi."
+      ],
+      "stack": ["Laravel", "MySQL", "Bill of Materials", "QC Workflow", "Payroll Calculation"]
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-ubsi",
+      "institution": "Universitas Bina Sarana Informatika",
+      "degree": "Bachelor of Computer Science (S.Kom), Information Technology",
+      "gpa": "3.86 / 4.00",
+      "period": "2022 - 2026",
+      "notes": "Fokus pada rekayasa perangkat lunak, arsitektur aplikasi web, pemodelan basis data relasional, dan pengujian sistem."
+    }
+  ]
+}
+
