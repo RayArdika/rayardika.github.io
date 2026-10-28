@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title>Decap CMS Admin | Ray Ardika Portfolio</title>
+    <title>Admin CMS | Ray Ardika Raihan Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -12,10 +12,126 @@
       rel="stylesheet"
     />
     <style>
+      * {
+        box-sizing: border-box;
+      }
       body {
         font-family: "Manrope", sans-serif;
         margin: 0;
         background: #f4f8fa;
+        color: #1f2a2e;
+      }
+      .auth-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 999999;
+        background: rgba(31, 42, 46, 0.85);
+        backdrop-filter: blur(6px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .auth-card {
+        background: #ffffff;
+        color: #1f2a2e;
+        max-width: 540px;
+        width: 100%;
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+        border: 2px solid #1f2a2e;
+      }
+      .auth-badge {
+        display: inline-block;
+        background: #1f2a2e;
+        color: #c1ff72;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+        letter-spacing: 0.5px;
+      }
+      .auth-title {
+        font-size: 24px;
+        font-weight: 800;
+        margin: 0 0 8px 0;
+        color: #1f2a2e;
+      }
+      .auth-desc {
+        font-size: 14px;
+        color: #626a6d;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      .step-box {
+        background: #f4f8fa;
+        border: 1px solid rgba(31, 42, 46, 0.12);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .step-box ol {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .step-box li {
+        margin-bottom: 6px;
+      }
+      .btn-generate {
+        display: inline-block;
+        background: #1f2a2e;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 12px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        margin-top: 6px;
+      }
+      .btn-generate:hover {
+        background: #000000;
+      }
+      .input-group {
+        margin-bottom: 16px;
+      }
+      .input-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .input-token {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 2px solid #1f2a2e;
+        font-family: monospace;
+        font-size: 14px;
+      }
+      .input-token:focus {
+        outline: none;
+        border-color: #c1ff72;
+        box-shadow: 0 0 0 3px rgba(193, 255, 114, 0.5);
+      }
+      .btn-submit {
+        width: 100%;
+        background: #c1ff72;
+        color: #1f2a2e;
+        border: 2px solid #1f2a2e;
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 15px;
+        cursor: pointer;
+        transition: transform 0.1s ease, background 0.2s ease;
+      }
+      .btn-submit:hover {
+        background: #b2f55c;
+        transform: translateY(-1px);
       }
       .studiova-admin-bar {
         position: fixed;
@@ -27,39 +143,133 @@
         gap: 8px;
         background: #1f2a2e;
         color: #ffffff;
-        padding: 10px 14px;
+        padding: 8px 14px;
         border-radius: 999px;
         border: 2px solid #c1ff72;
         box-shadow: 0 12px 28px rgba(31, 42, 46, 0.28);
         font-size: 13px;
         align-items: center;
       }
-      .studiova-admin-bar a {
+      .studiova-admin-bar a,
+      .studiova-admin-bar button {
         color: #1f2a2e;
         background: #c1ff72;
         text-decoration: none;
         font-weight: 700;
         padding: 6px 12px;
         border-radius: 999px;
-        transition: opacity 0.15s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 12px;
+        font-family: inherit;
       }
-      .studiova-admin-bar a.secondary {
-        background: rgba(255, 255, 255, 0.12);
+      .studiova-admin-bar button.logout {
+        background: rgba(255, 255, 255, 0.16);
         color: #ffffff;
       }
-      .studiova-admin-bar a:hover {
-        opacity: 0.9;
+      .studiova-admin-bar a.secondary {
+        background: rgba(255, 255, 255, 0.16);
+        color: #ffffff;
       }
     </style>
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-    <div class="studiova-admin-bar" role="region" aria-label="Pintasan Admin Portofolio">
-      <span>Mode Admin Decap CMS (GitHub Login)</span>
-      <a href="/admin/studio">Buka Studio Editor Lokal</a>
-      <a href="/api/auth?setup=1" class="secondary">Konfigurasi GitHub OAuth</a>
-      <a href="/" class="secondary">Lihat Portofolio</a>
+    <div id="authOverlay" class="auth-overlay" style="display: none;">
+      <div class="auth-card">
+        <span class="auth-badge">RayArdika/rayardika.github.io</span>
+        <h1 class="auth-title">Login Admin Portofolio</h1>
+        <p class="auth-desc">
+          Website Anda dihosting secara statis di domain kustom <strong>rayardika.my.id</strong>. Untuk mengelola data tanpa server backend terpisah, masukkan GitHub Personal Access Token (PAT).
+        </p>
+
+        <div class="step-box">
+          <ol>
+            <li>
+              Buka halaman pembuatan token otomatis dengan izin <code>repo</code>:
+              <br />
+              <a
+                href="https://github.com/settings/tokens/new?scopes=repo&description=Decap%20CMS%20Portofolio%20Admin"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-generate"
+              >
+                1. Buat Token di GitHub ↗
+              </a>
+            </li>
+            <li>Klik tombol hijau <strong>Generate token</strong> di bagian bawah halaman GitHub.</li>
+            <li>Salin token yang dihasilkan (diawali dengan <code>ghp_</code> atau <code>github_pat_</code>) dan tempel di bawah ini.</li>
+          </ol>
+        </div>
+
+        <form id="tokenForm">
+          <div class="input-group">
+            <label for="githubToken">GitHub Personal Access Token:</label>
+            <input
+              type="password"
+              id="githubToken"
+              class="input-token"
+              placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <button type="submit" class="btn-submit">
+            Masuk ke Admin Portofolio
+          </button>
+        </form>
+      </div>
     </div>
+
+    <div class="studiova-admin-bar" id="adminBar" style="display: none;">
+      <span>GitHub Terhubung (RayArdika)</span>
+      <button type="button" class="logout" id="logoutBtn">Ganti Token / Keluar</button>
+      <a href="/" class="secondary">Lihat Website ↗</a>
+    </div>
+
+    <script>
+      (function () {
+        function getStoredToken() {
+          try {
+            const raw = localStorage.getItem("decap-cms-user") || localStorage.getItem("netlify-cms-user");
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            return parsed && parsed.token ? parsed.token : null;
+          } catch (e) {
+            return null;
+          }
+        }
+
+        const token = getStoredToken();
+        const overlay = document.getElementById("authOverlay");
+        const adminBar = document.getElementById("adminBar");
+        const form = document.getElementById("tokenForm");
+        const input = document.getElementById("githubToken");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        if (!token) {
+          overlay.style.display = "flex";
+        } else {
+          adminBar.style.display = "flex";
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const val = input.value.trim();
+          if (!val) return;
+          const authObj = JSON.stringify({ token: val, provider: "github" });
+          localStorage.setItem("decap-cms-user", authObj);
+          localStorage.setItem("netlify-cms-user", authObj);
+          window.location.reload();
+        });
+
+        logoutBtn.addEventListener("click", function () {
+          localStorage.removeItem("decap-cms-user");
+          localStorage.removeItem("netlify-cms-user");
+          window.location.reload();
+        });
+      })();
+    </script>
+
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </body>
 </html>
-

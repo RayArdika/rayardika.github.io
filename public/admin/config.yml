@@ -1,11 +1,7 @@
 backend:
   name: github
-  repo: rayardika/portofolio-ray2
+  repo: RayArdika/rayardika.github.io
   branch: main
-  base_url: http://localhost:3000
-  auth_endpoint: api/auth
-
-local_backend: true
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
