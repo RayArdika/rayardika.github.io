@@ -7,39 +7,19 @@ import type {
   ProjectItem,
 } from "@/lib/cms";
 
-function ArrowUpRightIcon() {
+function ArrowUpRight() {
   return (
     <svg
-      width="14"
-      height="14"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2.2"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
+      style={{ width: "16px", height: "16px", flexShrink: 0 }}
     >
-      <line x1="7" y1="17" x2="17" y2="7" />
-      <polyline points="7 7 17 7 17 17" />
-    </svg>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <polyline points="20 6 9 17 4 12" />
+      <path d="M7 17 17 7M8 7h9v9" />
     </svg>
   );
 }
@@ -55,34 +35,40 @@ export default function PortfolioClient({
     projects,
     experience,
     certifications,
-    faq,
   } = initialData;
 
-  const [activeProjectTab, setActiveProjectTab] = useState<string>("All");
+  const [hours, setHours] = useState("--");
+  const [minutes, setMinutes] = useState("--");
+  const [seconds, setSeconds] = useState("--");
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [selectedProject, setSelectedProject] = useState<ProjectItem | FeaturedProjectItem | null>(null);
-  const [currentTime, setCurrentTime] = useState<string>("");
+  const [activeCategory, setActiveCategory] = useState<string>("All");
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
-  // Live real-time clock for Tangerang (GMT+7 / WIB)
   useEffect(() => {
     function updateClock() {
       const now = new Date();
-      const options: Intl.DateTimeFormatOptions = {
+      const parts = new Intl.DateTimeFormat("en-US", {
         timeZone: "Asia/Jakarta",
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
         hour12: false,
-      };
-      setCurrentTime(new Intl.DateTimeFormat("id-ID", options).format(now));
+      }).formatToParts(now);
+
+      const h = parts.find((p) => p.type === "hour")?.value || "--";
+      const m = parts.find((p) => p.type === "minute")?.value || "--";
+      const s = parts.find((p) => p.type === "second")?.value || "--";
+
+      setHours(h);
+      setMinutes(m);
+      setSeconds(s);
     }
     updateClock();
     const interval = setInterval(updateClock, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // Modal dialog synchronization
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -99,9 +85,9 @@ export default function PortfolioClient({
   }, [projects.items]);
 
   const filteredProjects = useMemo(() => {
-    if (activeProjectTab === "All") return projects.items;
-    return projects.items.filter((p) => p.category === activeProjectTab);
-  }, [projects.items, activeProjectTab]);
+    if (activeCategory === "All") return projects.items;
+    return projects.items.filter((p) => p.category === activeCategory);
+  }, [projects.items, activeCategory]);
 
   function handleCopyEmail() {
     navigator.clipboard.writeText(profile.email);
@@ -110,248 +96,333 @@ export default function PortfolioClient({
   }
 
   return (
-    <div className="min-h-screen">
-      {/* 1. Header Bar */}
-      <header className="site-container">
-        <div className="header-bar">
-          <a href="#about" className="badge-pill" aria-label="Halo! Kembali ke atas">
-            <span style={{ fontSize: "14px" }}>👋</span>
-            <span>Halo!</span>
+    <>
+      <main className="frame">
+        {/* Header Bar */}
+        <header>
+          <a href="#about" className="hello" aria-label="Halo! Kembali ke atas">
+            <span className="greet">
+              <span>Halo!</span>
+            </span>
           </a>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div className="badge-pill" style={{ fontFamily: "var(--font-mono-var)", fontSize: "12px" }}>
-              <span>Tangerang</span>
-              <span style={{ color: "var(--muted)" }}>•</span>
-              <span>{currentTime ? `${currentTime} WIB` : "GMT+7"}</span>
-            </div>
-
-            <a href="#contact" className="badge-pill" style={{ border: "1px solid #cce5d6" }}>
-              <span className="status-dot" />
-              <span style={{ fontWeight: 700, color: "var(--accent-green)" }}>Available for work</span>
+          <div className="header-right">
+            <a className="status" href="#contact">
+              <i className="status-dot" aria-hidden="true" />
+              <span className="status-flip">
+                <span>Available for work</span>
+                <span aria-hidden="true">Hubungi Saya →</span>
+              </span>
             </a>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <main className="site-container">
-        {/* 2. Hero Section */}
-        <section id="about" style={{ paddingTop: "32px", paddingBottom: "56px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))", gap: "40px", alignItems: "center" }}>
-            {/* Left: Bio & Identity */}
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "18px", marginBottom: "20px" }}>
+        {/* Hero Section */}
+        <div className="hero" id="about">
+          <div>
+            <div className="id">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={profile.avatarImage || "/assets/images/profile/avatar-1.png"}
+                alt={profile.name}
+                width="80"
+                height="80"
+                className="avatar"
+                style={{ objectFit: "cover" }}
+              />
+              <div className="avatar-pop" aria-hidden="true">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={profile.avatarImage || "/assets/images/profile/avatar-1.png"}
-                  alt={profile.name}
-                  width="72"
-                  height="72"
-                  style={{
-                    borderRadius: "50%",
-                    border: "2px solid var(--line-dark)",
-                    objectFit: "cover",
-                    boxShadow: "var(--shadow-sm)",
-                  }}
+                  alt=""
+                  width="260"
+                  height="340"
+                  style={{ objectFit: "cover", borderRadius: "14px" }}
                 />
-                <div>
-                  <h1 style={{ fontSize: "28px", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.15 }}>
-                    {profile.name}
-                  </h1>
-                  <p style={{ fontSize: "14px", color: "var(--muted)", fontWeight: 600, marginTop: "2px" }}>
-                    {profile.role}
-                  </p>
-                </div>
+                <span className="avatar-chip">Ray Ardika • S.Kom</span>
               </div>
+              <h1 className="name">{profile.displayTitle || profile.name}</h1>
+            </div>
 
-              <p style={{ fontSize: "17px", color: "var(--ink)", lineHeight: 1.6, marginBottom: "24px" }}>
-                Full-Stack Web Developer yang merancang, membangun, dan menerbitkan aplikasi web responsif menggunakan <strong>Laravel</strong> & <strong>Next.js</strong>, sistem operasional QR check-in, dan model deep learning computer vision.
-              </p>
+            <p className="tagline">
+              Full-Stack Web Developer yang merancang, membangun, dan menerbitkan sistem web responsif dengan <strong>Laravel</strong> & <strong>Next.js</strong>, sistem operasional QR check-in, dan model vision AI.
+            </p>
 
-              {/* Action buttons & Socials */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center" }}>
-                <a href="#contact" className="btn-primary">
-                  <span>Hubungi Saya</span>
-                  <ArrowUpRightIcon />
-                </a>
+            <p className="tagline">
+              Telah mengembangkan sistem operasional di{" "}
+              <a
+                className="org c3"
+                href="#projects"
+                style={{ "--brand": "#f0a500" } as React.CSSProperties}
+              >
+                <strong>SPMS Lapas & UBSI Ticketing</strong>
+              </a>
+            </p>
 
-                <a href={profile.cvPath} download className="btn-secondary">
-                  <span>Download CV (PDF)</span>
-                  <ArrowUpRightIcon />
-                </a>
-
+            <div className="hero-meta">
+              <div className="socials">
                 <a
                   href={profile.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="badge-pill"
-                  aria-label="GitHub Profile"
+                  aria-label="GitHub"
+                  title="GitHub"
+                  style={{ "--brand": "var(--btn)" } as React.CSSProperties}
                 >
-                  <span>GitHub</span>
-                  <ArrowUpRightIcon />
+                  <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="currentColor">
+                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                  </svg>
                 </a>
-
                 <a
                   href={profile.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="badge-pill"
-                  aria-label="LinkedIn Profile"
+                  aria-label="LinkedIn"
+                  title="LinkedIn"
+                  style={{ "--brand": "#0a66c2" } as React.CSSProperties}
                 >
-                  <span>LinkedIn</span>
-                  <ArrowUpRightIcon />
+                  <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="currentColor">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                  </svg>
+                </a>
+                <a
+                  href={`mailto:${profile.email}`}
+                  aria-label="Email"
+                  title="Email"
+                  style={{ "--brand": "var(--btn)" } as React.CSSProperties}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect width="20" height="16" x="2" y="4" rx="2" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                  </svg>
+                </a>
+                <a
+                  href={`https://wa.me/${profile.phone.replace(/[^0-9]/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="WhatsApp"
+                  title="WhatsApp"
+                  style={{ "--brand": "#25d366" } as React.CSSProperties}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="currentColor">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                  </svg>
                 </a>
               </div>
+
+              <div className="where">
+                <small>Based in Tangerang, ID</small>
+                <b>
+                  <span className="digit">{hours}</span>
+                  <span className="digit">:</span>
+                  <span className="digit">{minutes}</span>
+                  <span className="sec">
+                    <span className="digit">:</span>
+                    <span className="digit">{seconds}</span>
+                  </span>{" "}
+                  <span className="tz">WIB</span>
+                </b>
+              </div>
+            </div>
+          </div>
+
+          {/* Interactive Hero Shots (Laptop, Code, Phone) */}
+          <div className="shots" aria-hidden="true">
+            <div className="dev dev-laptop">
+              <div className="laptop">
+                <div className="screen" style={{ background: "#fdfdfc", padding: "14px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e6e5df", paddingBottom: "8px", marginBottom: "10px" }}>
+                    <span style={{ fontSize: "11px", fontWeight: 700, color: "#262510" }}>Fotodarikamu</span>
+                    <span style={{ fontSize: "10px", background: "#e8f4fc", color: "#1668a6", padding: "2px 6px", borderRadius: "4px" }}>QRIS Live</span>
+                  </div>
+                  <p style={{ fontSize: "11px", color: "#57564c", lineHeight: 1.4 }}>
+                    Multi-event photography platform with automated QRIS webhook payment verification.
+                  </p>
+                  <div style={{ marginTop: "10px", display: "flex", gap: "4px" }}>
+                    <span style={{ fontSize: "9px", background: "#f6f6f3", border: "1px solid #e6e5df", padding: "2px 6px", borderRadius: "4px" }}>Next.js</span>
+                    <span style={{ fontSize: "9px", background: "#f6f6f3", border: "1px solid #e6e5df", padding: "2px 6px", borderRadius: "4px" }}>Midtrans</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Right: Code Terminal Card (ray.ts) */}
-            <div>
-              <div
-                style={{
-                  background: "#1c1c1a",
-                  color: "#f6f6f3",
-                  borderRadius: "var(--radius-md)",
-                  border: "1px solid #333330",
-                  overflow: "hidden",
-                  boxShadow: "var(--shadow-md)",
-                  fontFamily: "var(--font-mono-var)",
-                  fontSize: "13px",
-                  lineHeight: 1.6,
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "10px 16px",
-                    background: "#242422",
-                    borderBottom: "1px solid #333330",
-                    fontSize: "12px",
-                    color: "#999990",
-                  }}
-                >
+            <div className="dev dev-code">
+              <div className="code" style={{ "--done": "6180ms" } as React.CSSProperties}>
+                <div className="code-bar">
                   <span>ray.ts</span>
-                  <span style={{ color: "#74d99f", display: "flex", alignItems: "center", gap: "6px" }}>
-                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#74d99f" }} />
-                    Deployed
-                  </span>
+                  <b>✓ Deployed</b>
                 </div>
-                <div style={{ padding: "18px 20px" }}>
-                  <p style={{ color: "#8a8a84", marginBottom: "4px" }}>// Professional Profile State</p>
-                  <p><span style={{ color: "#ff7b72" }}>const</span> engineer = &#123;</p>
-                  <p style={{ paddingLeft: "16px" }}><span style={{ color: "#79c0ff" }}>name</span>: <span style={{ color: "#a5d6ff" }}>&quot;Ray Ardika Raihan&quot;</span>,</p>
-                  <p style={{ paddingLeft: "16px" }}><span style={{ color: "#79c0ff" }}>degree</span>: <span style={{ color: "#a5d6ff" }}>&quot;S.Kom (IPK 3.86/4.00)&quot;</span>,</p>
-                  <p style={{ paddingLeft: "16px" }}><span style={{ color: "#79c0ff" }}>focus</span>: [<span style={{ color: "#a5d6ff" }}>&quot;Laravel&quot;</span>, <span style={{ color: "#a5d6ff" }}>&quot;Next.js&quot;</span>, <span style={{ color: "#a5d6ff" }}>&quot;Vision AI&quot;</span>],</p>
-                  <p style={{ paddingLeft: "16px" }}><span style={{ color: "#79c0ff" }}>availableForProjects</span>: <span style={{ color: "#79c0ff" }}>true</span>,</p>
-                  <p>&#125;;</p>
-                  <p style={{ marginTop: "10px" }}><span style={{ color: "#d2a8ff" }}>deploy</span>(engineer); <span style={{ color: "#8a8a84" }}>// Production ready</span></p>
+                <span className="ln"><span className="k">const </span><span>ray</span><span> = &#123;</span></span>
+                <span className="ln"><span className="p">  role</span>: <span className="s">&quot;Full-Stack Dev&quot;</span>,</span>
+                <span className="ln"><span className="p">  stack</span>: [<span className="s">&quot;Laravel&quot;</span>, <span className="s">&quot;Next.js&quot;</span>],</span>
+                <span className="ln"><span className="p">  aiResearch</span>: <span className="s">&quot;Computer Vision&quot;</span>,</span>
+                <span className="ln"><span>&#125;;</span></span>
+                <span className="ln"><span className="f">deploy</span>(ray);<span className="c"> // production ready</span><i className="caret" /></span>
+              </div>
+            </div>
+
+            <div className="dev dev-phone">
+              <div className="phone">
+                <div className="screen" style={{ background: "#262510", color: "#ffffff", padding: "12px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                  <div>
+                    <div style={{ fontSize: "10px", color: "#2f9e5b", fontWeight: 700, marginBottom: "4px" }}>• GATE ACTIVE</div>
+                    <div style={{ fontSize: "12px", fontWeight: 700 }}>SPMS Check-in</div>
+                    <p style={{ fontSize: "9px", color: "#c2cdd2", marginTop: "4px" }}>
+                      Visitor verified via encrypted QR token.
+                    </p>
+                  </div>
+                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: "6px", fontSize: "9px", color: "#2f9e5b" }}>
+                    ✓ 0.4s response
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* What I Do / Manifesto Section */}
+        <section className="manifesto">
+          <span className="eyebrow">What I do</span>
+          <p className="manifesto-text">
+            Berikan saya masalah nyata, bukan sekadar tumpukan teknologi. Saya{" "}
+            <span className="m-verb">
+              <span className="m-chip" style={{ "--c": "#ff6a3d", "--r": "-8deg" } as React.CSSProperties} aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path className="i-draw" d="M3 15c2.5-7 5.5-7 6.5-2.5S14 17 16 10.5s4-4.5 5-2" pathLength="1" /></svg>
+              </span>
+              desain
+            </span>{" "}
+            arsitekturnya,{" "}
+            <span className="m-verb">
+              <span className="m-chip" style={{ "--c": "#6d5dfc", "--r": "6deg" } as React.CSSProperties} aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path className="i-l" d="M8 7l-5 5 5 5" /><path className="i-r" d="M16 7l5 5-5 5" /><path d="M13.5 5l-3 14" /></svg>
+              </span>
+              bangun
+            </span>{" "}
+            kodenya,{" "}
+            <span className="m-verb">
+              <span className="m-chip" style={{ "--c": "#2f9e5b", "--r": "-5deg" } as React.CSSProperties} aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="4.5" cy="12" r="2.5" /><circle cx="19.5" cy="12" r="2.5" /><path d="M7 12h10" /><circle className="i-dot" cx="9" cy="12" r="1.8" /></svg>
+              </span>
+              integrasikan
+            </span>{" "}
+            basis data dan API-nya, lalu{" "}
+            <span className="m-verb">
+              <span className="m-chip" style={{ "--c": "#1d8fe8", "--r": "7deg" } as React.CSSProperties} aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path className="i-ship" d="M7 17 17 7M9 7h8v8" /></svg>
+              </span>
+              terbitkan
+            </span>{" "}
+            ke server produksi. Tanpa alasan.{" "}
+            <span className="mark">Hanya produk yang bekerja stabil.</span>
+          </p>
+
+          <ul className="platforms" aria-label="Spesialisasi Teknologi">
+            <li style={{ "--g": "#1d8fe8" } as React.CSSProperties}>
+              <svg viewBox="0 0 64 40" aria-hidden="true"><rect x="4" y="3" width="56" height="34" rx="4" /><path d="M4 10h56" /></svg>
+              <span>Web Apps (Laravel & Next.js)</span>
+            </li>
+            <li style={{ "--g": "#ff6a3d" } as React.CSSProperties}>
+              <svg viewBox="0 0 64 40" aria-hidden="true"><rect x="21" y="2" width="22" height="36" rx="5" /></svg>
+              <span>Operational QR Systems</span>
+            </li>
+            <li style={{ "--g": "#2f9e5b" } as React.CSSProperties}>
+              <svg viewBox="0 0 64 40" aria-hidden="true"><circle cx="32" cy="20" r="12" /></svg>
+              <span>Deep Learning & Vision AI</span>
+            </li>
+            <li style={{ "--g": "#6d5dfc" } as React.CSSProperties}>
+              <svg viewBox="0 0 64 40" aria-hidden="true"><rect x="6" y="6" width="52" height="28" rx="4" /></svg>
+              <span>RESTful APIs & Payments</span>
+            </li>
+          </ul>
         </section>
 
-        {/* 3. Manifesto / Platform Tags */}
-        <section style={{ paddingBottom: "64px" }}>
-          <div
-            style={{
-              background: "var(--frame)",
-              border: "1px solid var(--line)",
-              borderRadius: "var(--radius-lg)",
-              padding: "28px 32px",
-              boxShadow: "var(--shadow-sm)",
-            }}
-          >
-            <span className="eyebrow">Filosofi Pengerjaan</span>
-            <p style={{ fontSize: "19px", fontWeight: 700, color: "var(--ink)", lineHeight: 1.5, marginBottom: "20px" }}>
-              Berikan saya masalah, bukan hanya daftar tumpukan teknologi. Saya merancang arsitekturnya, membangun kodenya, mengintegrasikan alur bisnisnya, dan menerbitkannya hingga siap pakai di server produksi.
-            </p>
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-              <span className="tag-chip" style={{ background: "#e8f4fc", borderColor: "#c2e2fa", color: "#1668a6" }}>
-                🖥️ Web Application (Laravel & Next.js)
-              </span>
-              <span className="tag-chip" style={{ background: "#edf7f0", borderColor: "#c4e8ce", color: "#1e683b" }}>
-                ⚡ Operational Systems (QR & Check-in)
-              </span>
-              <span className="tag-chip" style={{ background: "#f5f0fd", borderColor: "#dfccfa", color: "#542ea6" }}>
-                🤖 Deep Learning (U-Net & Computer Vision)
-              </span>
-              <span className="tag-chip" style={{ background: "#fff7eb", borderColor: "#fae1b8", color: "#9c5b05" }}>
-                💳 Payment Integration (QRIS & Midtrans)
-              </span>
-            </div>
-          </div>
-        </section>
-
-        {/* 4. Featured Projects (Selected Work) */}
-        <section id="projects" style={{ paddingBottom: "72px" }}>
-          <div>
-            <span className="eyebrow">Selected Work</span>
-            <h2 className="section-title">{featuredProjects.sectionTitle}</h2>
-            <p className="section-desc">{featuredProjects.sectionSubtitle}</p>
+        {/* Featured Projects (Selected Work) */}
+        <section id="work" className="work">
+          <div className="head">
+            <span className="eyebrow">Selected work</span>
+            <h2 className="h2">{featuredProjects.sectionTitle}</h2>
+            <p className="sub">{featuredProjects.sectionSubtitle}</p>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+          <div className="stack">
             {featuredProjects.items.map((item, idx) => (
-              <article key={item.id} className="project-card">
-                {/* Browser top frame bar */}
-                <div className="browser-bar">
-                  <div className="browser-dots">
-                    <span className="browser-dot" style={{ background: "#ff5f56" }} />
-                    <span className="browser-dot" style={{ background: "#ffbd2e" }} />
-                    <span className="browser-dot" style={{ background: "#27c93f" }} />
-                  </div>
-                  <span>{item.client || "Production System"}</span>
-                  <span style={{ fontWeight: 700 }}>0{idx + 1} / 0{featuredProjects.items.length}</span>
-                </div>
-
-                <div style={{ padding: "28px 32px" }}>
-                  <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: "16px", marginBottom: "14px" }}>
-                    <div>
-                      <span style={{ fontSize: "12px", fontFamily: "var(--font-mono-var)", color: "var(--muted)", display: "block", marginBottom: "4px" }}>
-                        {item.period} • {item.status}
-                      </span>
-                      <h3 style={{ fontSize: "22px", fontWeight: 800, color: "var(--ink)" }}>
-                        {item.title}
-                      </h3>
+              <article key={item.id} className="stack-card" style={{ "--i": idx } as React.CSSProperties}>
+                <div className="stack-inner">
+                  <div className="stack-info">
+                    <div className="stack-top">
+                      <span>0{idx + 1} / 0{featuredProjects.items.length}</span>
+                      <span>{item.period}</span>
                     </div>
-
-                    <div style={{ display: "flex", gap: "8px" }}>
+                    <h3>{item.title}</h3>
+                    <p>{item.summary}</p>
+                    <div className="tags">
+                      {item.stack.map((t) => (
+                        <span key={t}>{t}</span>
+                      ))}
+                    </div>
+                    <div className="stack-links" style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "16px" }}>
                       {item.liveUrl && (
                         <a
+                          className="btn primary"
                           href={item.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="btn-primary"
-                          style={{ padding: "8px 16px", fontSize: "13px" }}
                         >
-                          <span>Kunjungi Demo</span>
-                          <ArrowUpRightIcon />
+                          <span className="roll"><span>Visit site</span></span>
+                          <ArrowUpRight />
                         </a>
                       )}
                       <button
                         type="button"
                         onClick={() => setSelectedProject(item)}
-                        className="btn-secondary"
-                        style={{ padding: "8px 16px", fontSize: "13px" }}
+                        className="btn"
+                        style={{ cursor: "pointer" }}
                       >
-                        Detail Studi Kasus
+                        <span className="roll"><span>Studi Kasus</span></span>
                       </button>
                     </div>
                   </div>
 
-                  <p style={{ fontSize: "15px", color: "var(--muted)", lineHeight: 1.6, marginBottom: "20px" }}>
-                    {item.summary}
-                  </p>
-
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                    {item.stack.map((tech) => (
-                      <span key={tech} className="tag-chip">
-                        {tech}
-                      </span>
-                    ))}
+                  <div
+                    className="stack-visual"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: idx % 2 === 0 ? "linear-gradient(135deg, #f7e0a3, #f4b711)" : "linear-gradient(135deg, #d2e4ff, #8ec2ff)",
+                      padding: "24px",
+                      borderRadius: "16px",
+                      minHeight: "260px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#ffffff",
+                        padding: "20px",
+                        borderRadius: "12px",
+                        boxShadow: "0 12px 32px rgba(0,0,0,0.12)",
+                        maxWidth: "340px",
+                        width: "100%",
+                      }}
+                    >
+                      <div style={{ display: "flex", gap: "5px", marginBottom: "12px" }}>
+                        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ff5f56" }} />
+                        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ffbd2e" }} />
+                        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#27c93f" }} />
+                      </div>
+                      <h4 style={{ fontSize: "16px", fontWeight: 800, color: "#262510", marginBottom: "4px" }}>
+                        {item.title}
+                      </h4>
+                      <p style={{ fontSize: "12px", color: "#57564c", lineHeight: 1.4 }}>
+                        {item.client} • {item.status}
+                      </p>
+                      <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", gap: "4px" }}>
+                        {item.stack.slice(0, 3).map((st) => (
+                          <span key={st} style={{ fontSize: "10px", background: "#f6f6f3", padding: "2px 6px", borderRadius: "4px", color: "#262510", fontWeight: 600 }}>
+                            {st}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </article>
@@ -359,34 +430,93 @@ export default function PortfolioClient({
           </div>
         </section>
 
-        {/* 5. All Projects Archive (Filterable) */}
-        <section style={{ paddingBottom: "72px" }}>
-          <div>
-            <span className="eyebrow">Arsip Lengkap</span>
-            <h2 className="section-title">Eksplorasi Proyek Lainnya</h2>
-            <p className="section-desc">Kumpulan aplikasi web, otomasi sistem operasional, dan proyek penelitian deep learning.</p>
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "28px" }}>
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setActiveProjectTab(cat)}
-                  className="badge-pill"
-                  style={{
-                    cursor: "pointer",
-                    background: activeProjectTab === cat ? "var(--btn)" : "var(--frame)",
-                    color: activeProjectTab === cat ? "var(--btn-ink)" : "var(--ink)",
-                    borderColor: activeProjectTab === cat ? "var(--btn)" : "var(--line)",
-                  }}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+        {/* Experience Timeline */}
+        <section id="experience">
+          <div className="head">
+            <h2 className="h2">{experience.sectionTitle}</h2>
+            <p className="sub">{experience.sectionSubtitle}</p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))", gap: "20px" }}>
+          <ol className="xp">
+            {experience.experiences.map((exp, idx) => (
+              <li key={exp.id}>
+                <div className="xp-logos">
+                  <div
+                    style={{
+                      width: "48px",
+                      height: "48px",
+                      borderRadius: "10px",
+                      background: "var(--card)",
+                      border: "1px solid var(--line)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 800,
+                      fontSize: "14px",
+                      color: "var(--ink)",
+                    }}
+                  >
+                    0{idx + 1}
+                  </div>
+                </div>
+                <div>
+                  <h3>
+                    {exp.role} <span>· {exp.organization}</span>
+                    {idx === 0 && <span className="now">Now</span>}
+                  </h3>
+                  <p style={{ margin: "4px 0 10px 0", fontSize: "13px", color: "var(--muted)", fontWeight: 600 }}>
+                    📍 {exp.location} • {exp.period} • {exp.type}
+                  </p>
+                  <ul style={{ listStyle: "none", padding: 0, margin: "0 0 12px 0", display: "flex", flexDirection: "column", gap: "6px" }}>
+                    {exp.bullets.map((b, bIdx) => (
+                      <li key={bIdx} style={{ fontSize: "14px", color: "var(--ink)", lineHeight: 1.5, display: "flex", gap: "8px" }}>
+                        <span style={{ color: "var(--accent-green)", flexShrink: 0 }}>•</span>
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="tags">
+                    {exp.stack.map((t) => (
+                      <span key={t}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* All Projects Archive (Filterable) */}
+        <section style={{ paddingTop: "24px", paddingBottom: "56px" }}>
+          <div className="head">
+            <span className="eyebrow">Arsip Lengkap</span>
+            <h2 className="h2">Eksplorasi Proyek Lainnya</h2>
+            <p className="sub">Semua sistem web, integrasi QRIS, dan riset deep learning yang telah diselesaikan.</p>
+          </div>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "24px" }}>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className="btn"
+                style={{
+                  padding: "8px 16px",
+                  fontSize: "13px",
+                  borderRadius: "999px",
+                  cursor: "pointer",
+                  background: activeCategory === cat ? "var(--btn)" : "var(--frame)",
+                  color: activeCategory === cat ? "var(--btn-ink)" : "var(--ink)",
+                  border: "1px solid var(--line)",
+                }}
+              >
+                <span>{cat}</span>
+              </button>
+            ))}
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
             {filteredProjects.map((p) => (
               <div
                 key={p.id}
@@ -394,42 +524,25 @@ export default function PortfolioClient({
                 style={{
                   background: "var(--frame)",
                   border: "1px solid var(--line)",
-                  borderRadius: "var(--radius-md)",
-                  padding: "24px",
+                  borderRadius: "14px",
+                  padding: "20px",
                   cursor: "pointer",
-                  transition: "transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease",
-                  boxShadow: "var(--shadow-sm)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.borderColor = "var(--line-dark)";
-                  e.currentTarget.style.boxShadow = "var(--shadow-md)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.borderColor = "var(--line)";
-                  e.currentTarget.style.boxShadow = "var(--shadow-sm)";
+                  transition: "transform 0.2s ease, border-color 0.2s ease",
                 }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
-                  <span style={{ fontSize: "12px", fontFamily: "var(--font-mono-var)", color: "var(--muted)" }}>
-                    {p.period}
-                  </span>
-                  <span className="tag-chip" style={{ fontSize: "11px", padding: "2px 8px" }}>
-                    {p.status}
-                  </span>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "var(--muted)", marginBottom: "6px" }}>
+                  <span>{p.period}</span>
+                  <span style={{ fontWeight: 600, color: "var(--ink)" }}>{p.status}</span>
                 </div>
-
-                <h3 style={{ fontSize: "17px", fontWeight: 700, color: "var(--ink)", marginBottom: "6px" }}>
+                <h4 style={{ fontSize: "16px", fontWeight: 800, color: "var(--ink)", marginBottom: "6px" }}>
                   {p.title}
-                </h3>
-                <p style={{ fontSize: "13px", color: "var(--muted)", lineHeight: 1.5, marginBottom: "16px" }}>
+                </h4>
+                <p style={{ fontSize: "13px", color: "var(--muted)", lineHeight: 1.5, marginBottom: "12px" }}>
                   {p.summary}
                 </p>
-
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
                   {p.stack.slice(0, 3).map((st) => (
-                    <span key={st} style={{ fontSize: "11px", fontFamily: "var(--font-mono-var)", color: "var(--muted)" }}>
+                    <span key={st} style={{ fontSize: "11px", background: "var(--card)", padding: "2px 6px", borderRadius: "4px", color: "var(--muted)" }}>
                       #{st}
                     </span>
                   ))}
@@ -439,161 +552,53 @@ export default function PortfolioClient({
           </div>
         </section>
 
-        {/* 6. Experience & Education Section */}
-        <section id="experience" style={{ paddingBottom: "72px" }}>
-          <div>
-            <span className="eyebrow">Riwayat Kerja & Pendidikan</span>
-            <h2 className="section-title">{experience.sectionTitle}</h2>
-            <p className="section-desc">{experience.sectionSubtitle}</p>
-          </div>
-
-          <div
-            style={{
-              background: "var(--frame)",
-              border: "1px solid var(--line)",
-              borderRadius: "var(--radius-lg)",
-              padding: "32px",
-              boxShadow: "var(--shadow-sm)",
-              marginBottom: "28px",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
-              {experience.experiences.map((exp, idx) => (
-                <div
-                  key={exp.id}
-                  style={{
-                    borderBottom: idx !== experience.experiences.length - 1 ? "1px solid var(--line)" : "none",
-                    paddingBottom: idx !== experience.experiences.length - 1 ? "28px" : "0",
-                  }}
-                >
-                  <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "baseline", gap: "8px", marginBottom: "6px" }}>
-                    <h3 style={{ fontSize: "18px", fontWeight: 800, color: "var(--ink)" }}>
-                      {exp.role} <span style={{ fontWeight: 500, color: "var(--muted)" }}>• {exp.organization}</span>
-                    </h3>
-                    <span className="badge-pill" style={{ fontFamily: "var(--font-mono-var)", fontSize: "12px", background: "var(--card)" }}>
-                      {exp.period}
-                    </span>
-                  </div>
-
-                  <p style={{ fontSize: "13px", color: "var(--muted)", marginBottom: "12px" }}>
-                    📍 {exp.location} • {exp.type}
-                  </p>
-
-                  <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px" }}>
-                    {exp.bullets.map((bullet, bIdx) => (
-                      <li key={bIdx} style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "14px", color: "var(--ink)", lineHeight: 1.55 }}>
-                        <span style={{ color: "var(--accent-green)", marginTop: "2px", flexShrink: 0 }}>
-                          <CheckIcon />
-                        </span>
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                    {exp.stack.map((st) => (
-                      <span key={st} className="tag-chip" style={{ fontSize: "11px" }}>
-                        {st}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Education Card */}
-          <div
-            style={{
-              background: "var(--card)",
-              border: "1px solid var(--line)",
-              borderRadius: "var(--radius-lg)",
-              padding: "24px 32px",
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: "16px",
-            }}
-          >
-            <div>
-              <span className="eyebrow" style={{ color: "var(--muted)" }}>Latar Belakang Pendidikan</span>
-              <h3 style={{ fontSize: "18px", fontWeight: 800, color: "var(--ink)" }}>
-                {experience.education[0]?.degree || "S.Kom, Informatika"}
-              </h3>
-              <p style={{ fontSize: "14px", color: "var(--muted)" }}>
-                {experience.education[0]?.institution || "Universitas Bina Sarana Informatika"} ({experience.education[0]?.period || "2022 - 2026"})
-              </p>
-            </div>
-            <div style={{ textAlign: "right" }}>
-              <span style={{ fontSize: "28px", fontWeight: 800, color: "var(--ink)", display: "block", lineHeight: 1 }}>
-                {experience.education[0]?.gpa || "3.86"}
-              </span>
-              <span style={{ fontSize: "12px", color: "var(--muted)", fontWeight: 600 }}>IPK Kumulatif (Skala 4.00)</span>
-            </div>
-          </div>
-        </section>
-
-        {/* 7. Certifications & Credentials */}
-        <section id="certifications" style={{ paddingBottom: "72px" }}>
-          <div>
+        {/* Certifications Section */}
+        <section id="certifications" style={{ paddingBottom: "56px" }}>
+          <div className="head">
             <span className="eyebrow">Kredensial Resmi</span>
-            <h2 className="section-title">{certifications.sectionTitle}</h2>
-            <p className="section-desc">{certifications.sectionSubtitle}</p>
+            <h2 className="h2">{certifications.sectionTitle}</h2>
+            <p className="sub">{certifications.sectionSubtitle}</p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "18px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
             {certifications.items.map((cert) => (
               <div
                 key={cert.id}
                 style={{
                   background: "var(--frame)",
                   border: "1px solid var(--line)",
-                  borderRadius: "var(--radius-md)",
-                  padding: "24px",
+                  borderRadius: "14px",
+                  padding: "22px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
-                  boxShadow: "var(--shadow-sm)",
                 }}
               >
                 <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                    <span className="tag-chip" style={{ fontSize: "11px" }}>{cert.category}</span>
-                    <span style={{ fontSize: "12px", fontFamily: "var(--font-mono-var)", color: "var(--muted)" }}>
-                      {cert.date}
-                    </span>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "var(--muted)", marginBottom: "6px" }}>
+                    <span style={{ fontWeight: 700, color: "var(--ink)" }}>{cert.category}</span>
+                    <span>{cert.date}</span>
                   </div>
-
-                  <h3 style={{ fontSize: "16px", fontWeight: 800, color: "var(--ink)", marginBottom: "4px" }}>
+                  <h4 style={{ fontSize: "16px", fontWeight: 800, color: "var(--ink)", marginBottom: "4px" }}>
                     {cert.title}
-                  </h3>
-                  <p style={{ fontSize: "13px", fontWeight: 600, color: "var(--muted)", marginBottom: "10px" }}>
+                  </h4>
+                  <p style={{ fontSize: "13px", color: "var(--muted)", fontWeight: 600, marginBottom: "8px" }}>
                     {cert.issuer}
                   </p>
-                  <p style={{ fontSize: "13px", color: "var(--ink)", lineHeight: 1.5, marginBottom: "16px" }}>
+                  <p style={{ fontSize: "13px", color: "var(--ink)", lineHeight: 1.5 }}>
                     {cert.description}
                   </p>
                 </div>
-
-                <div style={{ borderTop: "1px solid var(--line)", paddingTop: "14px" }}>
+                <div style={{ borderTop: "1px solid var(--line)", paddingTop: "12px", marginTop: "16px" }}>
                   <a
                     href={cert.credentialUrl || profile.cvPath}
                     target={cert.credentialUrl ? "_blank" : undefined}
                     rel={cert.credentialUrl ? "noopener noreferrer" : undefined}
                     download={!cert.credentialUrl ? true : undefined}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      color: "var(--ink)",
-                      textDecoration: "none",
-                    }}
+                    style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
                   >
                     <span>{cert.credentialUrl ? "Verifikasi Kredensial" : "Lihat di Berkas CV"}</span>
-                    <ArrowUpRightIcon />
+                    <ArrowUpRight />
                   </a>
                 </div>
               </div>
@@ -601,106 +606,75 @@ export default function PortfolioClient({
           </div>
         </section>
 
-        {/* 8. FAQ Section */}
-        <section id="faq" style={{ paddingBottom: "72px" }}>
-          <div>
-            <span className="eyebrow">Tanya Jawab</span>
-            <h2 className="section-title">{faq.sectionTitle}</h2>
-            <p className="section-desc">{faq.sectionSubtitle}</p>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-            {faq.items.map((item, idx) => (
-              <details
-                key={idx}
-                style={{
-                  background: "var(--frame)",
-                  border: "1px solid var(--line)",
-                  borderRadius: "var(--radius-md)",
-                  padding: "18px 24px",
-                  boxShadow: "var(--shadow-sm)",
-                  cursor: "pointer",
-                }}
-              >
-                <summary style={{ fontWeight: 700, fontSize: "16px", color: "var(--ink)", outline: "none" }}>
-                  {item.question}
-                </summary>
-                <p style={{ marginTop: "12px", fontSize: "14px", color: "var(--muted)", lineHeight: 1.6 }}>
-                  {item.answer}
-                </p>
-              </details>
-            ))}
-          </div>
-        </section>
-
-        {/* 9. Contact / Footer ("Let's build something great together") */}
-        <section
-          id="contact"
-          style={{
-            background: "var(--frame)",
-            border: "1px solid var(--line)",
-            borderRadius: "var(--radius-lg)",
-            padding: "48px 36px",
-            boxShadow: "var(--shadow-sm)",
-            marginBottom: "64px",
-          }}
-        >
-          <div style={{ maxWidth: "640px" }}>
-            <span className="eyebrow">Mulai Diskusi</span>
-            <h2 style={{ fontSize: "clamp(26px, 5vw, 40px)", fontWeight: 800, color: "var(--ink)", letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: "14px" }}>
-              Mari bangun platform web yang andal dan teruji bersama.
-            </h2>
-            <p style={{ fontSize: "16px", color: "var(--muted)", lineHeight: 1.6, marginBottom: "28px" }}>
-              Saya terbuka untuk kesempatan kerja penuh waktu, kontrak proyek pengembangan sistem operasional, maupun riset kolaboratif artificial intelligence.
-            </p>
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center", marginBottom: "32px" }}>
-              <button
-                type="button"
-                onClick={handleCopyEmail}
-                className="btn-primary"
-                style={{ padding: "12px 24px", fontSize: "14px" }}
-              >
-                <span>{copiedEmail ? "✓ Email Disalin!" : `Salin ${profile.email}`}</span>
-              </button>
-
-              <a
-                href={`mailto:${profile.email}`}
-                className="btn-secondary"
-                style={{ padding: "12px 24px", fontSize: "14px" }}
-              >
-                <span>Kirim Email Langsung</span>
-                <ArrowUpRightIcon />
-              </a>
-
-              <a
-                href={`https://wa.me/${profile.phone.replace(/[^0-9]/g, "")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="badge-pill"
-                style={{ padding: "11px 18px", fontSize: "14px" }}
-              >
-                <span>WhatsApp: {profile.phone}</span>
-                <ArrowUpRightIcon />
-              </a>
+        {/* About / Philosophy Section */}
+        <section>
+          <div className="about">
+            <div className="about-copy">
+              <span className="eyebrow">About me</span>
+              <h2 className="h2">A designer&apos;s eye, an engineer&apos;s hands.</h2>
+              <p>
+                Halo! Saya Ray Ardika Raihan, lulusan Sarjana Komputer (S.Kom) Informatika dengan IPK 3.86/4.00. Saya terbiasa bertanggung jawab atas keseluruhan siklus hidup perangkat lunak, mulai dari perancangan arsitektur basis data, integrasi payment gateway QRIS, hingga konfigurasi server HTTPS produksi.
+              </p>
             </div>
-
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "12px", borderTop: "1px solid var(--line)", paddingTop: "24px", fontSize: "13px", color: "var(--muted)" }}>
-              <p>© {new Date().getFullYear()} {profile.name}. All rights reserved.</p>
-              <div style={{ display: "flex", gap: "16px" }}>
-                <a href={profile.github} target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink)", textDecoration: "none", fontWeight: 600 }}>GitHub</a>
-                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink)", textDecoration: "none", fontWeight: 600 }}>LinkedIn</a>
-                <a href="/admin" style={{ color: "var(--muted)", textDecoration: "none" }}>Portal Konten</a>
+            <div className="about-stats">
+              <div className="stat">
+                <b>3.86</b>
+                <small>IPK Kumulatif (Skala 4.00)</small>
+              </div>
+              <div className="stat">
+                <b>5+</b>
+                <small>Sistem Web & Operasional Produksi</small>
+              </div>
+              <div className="stat">
+                <b>685</b>
+                <small>Skor Resmi TOEIC</small>
+              </div>
+              <div className="stat">
+                <b>BNSP</b>
+                <small>Sertifikasi Kompetensi Software Engineer</small>
               </div>
             </div>
           </div>
         </section>
+
+        {/* Contact / Footer Section */}
+        <section className="contact" id="contact">
+          <div className="contact-copy">
+            <span className="eyebrow">Contact</span>
+            <h2 className="contact-title">Let&apos;s build something great together.</h2>
+            <p className="sub">
+              Website operasional, aplikasi enterprise, atau riset computer vision? Apapun yang sedang Anda bangun, pintu kolaborasi saya terbuka.
+            </p>
+            <div className="ctas">
+              <a className="btn primary" href={`mailto:${profile.email}`}>
+                <span className="roll"><span>{profile.email}</span></span>
+              </a>
+              <button className="btn" type="button" onClick={handleCopyEmail}>
+                <span className="roll"><span>{copiedEmail ? "✓ Email Disalin!" : "Salin Email"}</span></span>
+              </button>
+              <a className="btn" href={`https://wa.me/${profile.phone.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer">
+                <span className="roll"><span>WhatsApp</span></span>
+                <ArrowUpRight />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer style={{ borderTop: "1px solid var(--line)", padding: "28px 0", marginTop: "40px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px", fontSize: "13px", color: "var(--muted)" }}>
+          <p>© {new Date().getFullYear()} {profile.name}. All rights reserved.</p>
+          <div style={{ display: "flex", gap: "16px" }}>
+            <a href={profile.github} target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink)", textDecoration: "none", fontWeight: 600 }}>GitHub</a>
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink)", textDecoration: "none", fontWeight: 600 }}>LinkedIn</a>
+            <a href="/admin" style={{ color: "var(--muted)", textDecoration: "none" }}>Portal Konten</a>
+          </div>
+        </footer>
       </main>
 
       {/* Case Study Modal Dialog */}
       <dialog
         ref={dialogRef}
-        className="custom-modal"
+        className="albert-modal"
         onClose={() => setSelectedProject(null)}
         onClick={(e) => {
           if (e.target === dialogRef.current) setSelectedProject(null);
@@ -710,10 +684,10 @@ export default function PortfolioClient({
           <div style={{ padding: "32px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "16px", borderBottom: "1px solid var(--line)", paddingBottom: "16px", marginBottom: "20px" }}>
               <div>
-                <span className="tag-chip" style={{ fontSize: "11px", marginBottom: "6px" }}>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--muted)", textTransform: "uppercase" }}>
                   {selectedProject.status} • {selectedProject.period}
                 </span>
-                <h3 style={{ fontSize: "22px", fontWeight: 800, color: "var(--ink)", margin: 0 }}>
+                <h3 style={{ fontSize: "22px", fontWeight: 800, color: "var(--ink)", margin: "4px 0 0 0" }}>
                   {selectedProject.title}
                 </h3>
                 <p style={{ fontSize: "13px", color: "var(--muted)", margin: "4px 0 0 0" }}>
@@ -755,7 +729,7 @@ export default function PortfolioClient({
                 <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "8px" }}>
                   {selectedProject.highlights.map((h, i) => (
                     <li key={i} style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "13px", color: "var(--muted)", lineHeight: 1.5 }}>
-                      <span style={{ color: "var(--accent-green)", marginTop: "2px", flexShrink: 0 }}><CheckIcon /></span>
+                      <span style={{ color: "var(--accent-green)", marginTop: "2px", flexShrink: 0 }}>•</span>
                       <span>{h}</span>
                     </li>
                   ))}
@@ -771,7 +745,7 @@ export default function PortfolioClient({
                 <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "8px" }}>
                   {selectedProject.deliverables.map((d, i) => (
                     <li key={i} style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "13px", color: "var(--muted)", lineHeight: 1.5 }}>
-                      <span style={{ color: "var(--accent-green)", marginTop: "2px", flexShrink: 0 }}><CheckIcon /></span>
+                      <span style={{ color: "var(--accent-green)", marginTop: "2px", flexShrink: 0 }}>•</span>
                       <span>{d}</span>
                     </li>
                   ))}
@@ -783,9 +757,9 @@ export default function PortfolioClient({
               <h4 style={{ fontSize: "13px", fontWeight: 700, color: "var(--ink)", marginBottom: "8px" }}>
                 Teknologi yang Digunakan:
               </h4>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+              <div className="tags">
                 {selectedProject.stack.map((s) => (
-                  <span key={s} className="tag-chip" style={{ fontSize: "11px" }}>{s}</span>
+                  <span key={s}>{s}</span>
                 ))}
               </div>
             </div>
@@ -796,11 +770,11 @@ export default function PortfolioClient({
                   href={selectedProject.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary"
+                  className="btn primary"
                   style={{ fontSize: "13px", padding: "8px 18px" }}
                 >
-                  <span>Kunjungi Demo Langsung</span>
-                  <ArrowUpRightIcon />
+                  <span className="roll"><span>Kunjungi Demo</span></span>
+                  <ArrowUpRight />
                 </a>
               )}
               {selectedProject.repoUrl && (
@@ -808,25 +782,25 @@ export default function PortfolioClient({
                   href={selectedProject.repoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-secondary"
+                  className="btn"
                   style={{ fontSize: "13px", padding: "8px 18px" }}
                 >
-                  <span>Repository GitHub</span>
-                  <ArrowUpRightIcon />
+                  <span className="roll"><span>GitHub Repo</span></span>
+                  <ArrowUpRight />
                 </a>
               )}
               <button
                 type="button"
                 onClick={() => setSelectedProject(null)}
-                className="btn-secondary"
-                style={{ fontSize: "13px", padding: "8px 18px" }}
+                className="btn"
+                style={{ fontSize: "13px", padding: "8px 18px", cursor: "pointer" }}
               >
-                Tutup
+                <span className="roll"><span>Tutup</span></span>
               </button>
             </div>
           </div>
         )}
       </dialog>
-    </div>
+    </>
   );
 }
