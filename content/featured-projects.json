@@ -16,7 +16,7 @@
         "Configured and maintained production hosting, domain, HTTPS, MySQL, SMTP, and scheduled jobs; supported post-launch improvements."
       ],
       "stack": ["Laravel", "MySQL", "QR Workflows", "GPS"],
-      "image": "/assets/images/portfolio/portfolio-img-1.jpg",
+      "image": "/assets/images/showcase/spms-laptop.png",
       "liveUrl": "",
       "repoUrl": "",
       "featuredOrder": 1
@@ -35,7 +35,7 @@
         "Integrated QRIS payment flows through Midtrans/DOKU and transaction-status webhooks."
       ],
       "stack": ["Next.js", "TypeScript", "Midtrans/DOKU", "MariaDB"],
-      "image": "/assets/images/portfolio/portfolio-img-2.jpg",
+      "image": "/assets/images/showcase/fotodarikamu.png",
       "liveUrl": "",
       "repoUrl": "",
       "featuredOrder": 2
@@ -71,7 +71,7 @@
         "Automated daily supervisor approval and PDF/tabular operational reporting."
       ],
       "stack": ["Laravel", "QR Code", "Geolocation API", "MySQL"],
-      "image": "/assets/images/portfolio/portfolio-img-4.jpg",
+      "image": "/assets/images/showcase/spms-hp.jpeg",
       "liveUrl": "",
       "repoUrl": "",
       "featuredOrder": 4

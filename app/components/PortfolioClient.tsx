@@ -376,34 +376,35 @@ export default function PortfolioClient({
                   <div
                     className="stack-visual"
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      background: idx % 2 === 0 ? "linear-gradient(135deg, #f7e0a3, #f4b711)" : "linear-gradient(135deg, #d2e4ff, #8ec2ff)",
-                      padding: "24px",
-                      borderRadius: "16px",
-                      minHeight: "260px",
+                      aspectRatio: "16/10",
+                      borderRadius: "24px",
+                      position: "relative",
                       overflow: "hidden",
+                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      background: "#181816",
+                      boxShadow: "0 20px 40px -15px rgba(0,0,0,0.5)",
                     }}
                   >
-                    <div className="window" style={{ width: "90%", position: "relative" }}>
-                      <div className="window-in" style={{ boxShadow: "0 20px 40px -10px rgba(0,0,0,0.4)" }}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={
-                            item.id === "spms-lapas-empat-lawang"
-                              ? "/assets/images/showcase/spms-laptop.png"
-                              : item.id === "fotodarikamu"
-                              ? "/assets/images/showcase/fotodarikamu.png"
-                              : idx % 2 === 0
-                              ? "/assets/images/showcase/spms-laptop.png"
-                              : "/assets/images/showcase/fotodarikamu.png"
-                          }
-                          alt={item.title}
-                          style={{ width: "100%", height: "auto", display: "block", objectFit: "cover" }}
-                        />
-                      </div>
-                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={
+                        item.id === "spms-lapas-empat-lawang"
+                          ? "/assets/images/showcase/spms-laptop.png"
+                          : item.id === "fotodarikamu"
+                          ? "/assets/images/showcase/fotodarikamu.png"
+                          : item.id === "spms-security-module"
+                          ? "/assets/images/showcase/spms-hp.jpeg"
+                          : item.image || "/assets/images/showcase/spms-laptop.png"
+                      }
+                      alt={item.title}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "top left",
+                        display: "block",
+                      }}
+                    />
                   </div>
                 </div>
               </article>
