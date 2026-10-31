@@ -127,7 +127,7 @@ export default function PortfolioClient({
                 width="80"
                 height="80"
                 className="avatar"
-                style={{ objectFit: "cover", objectPosition: "50% 20%" }}
+                style={{ objectFit: "cover", objectPosition: "50% 30%" }}
               />
               <div className="avatar-pop" aria-hidden="true">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -136,7 +136,7 @@ export default function PortfolioClient({
                   alt=""
                   width="260"
                   height="340"
-                  style={{ objectFit: "cover", borderRadius: "14px" }}
+                  style={{ objectFit: "cover", objectPosition: "50% 30%", borderRadius: "14px" }}
                 />
                 <span className="avatar-chip">Ray Ardika • S.Kom</span>
               </div>
