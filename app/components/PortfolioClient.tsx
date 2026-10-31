@@ -229,18 +229,13 @@ export default function PortfolioClient({
           <div className="shots" aria-hidden="true">
             <div className="dev dev-laptop">
               <div className="laptop">
-                <div className="screen" style={{ background: "#fdfdfc", padding: "14px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e6e5df", paddingBottom: "8px", marginBottom: "10px" }}>
-                    <span style={{ fontSize: "11px", fontWeight: 700, color: "#262510" }}>Fotodarikamu</span>
-                    <span style={{ fontSize: "10px", background: "#e8f4fc", color: "#1668a6", padding: "2px 6px", borderRadius: "4px" }}>QRIS Live</span>
-                  </div>
-                  <p style={{ fontSize: "11px", color: "#57564c", lineHeight: 1.4 }}>
-                    Multi-event photography platform with automated QRIS webhook payment verification.
-                  </p>
-                  <div style={{ marginTop: "10px", display: "flex", gap: "4px" }}>
-                    <span style={{ fontSize: "9px", background: "#f6f6f3", border: "1px solid #e6e5df", padding: "2px 6px", borderRadius: "4px" }}>Next.js</span>
-                    <span style={{ fontSize: "9px", background: "#f6f6f3", border: "1px solid #e6e5df", padding: "2px 6px", borderRadius: "4px" }}>Midtrans</span>
-                  </div>
+                <div className="screen">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/assets/images/showcase/fotodarikamu.png"
+                    alt="Homepage Fotodarikamu"
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                  />
                 </div>
               </div>
             </div>
@@ -262,17 +257,13 @@ export default function PortfolioClient({
 
             <div className="dev dev-phone">
               <div className="phone">
-                <div className="screen" style={{ background: "#262510", color: "#ffffff", padding: "12px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                  <div>
-                    <div style={{ fontSize: "10px", color: "#2f9e5b", fontWeight: 700, marginBottom: "4px" }}>• GATE ACTIVE</div>
-                    <div style={{ fontSize: "12px", fontWeight: 700 }}>SPMS Check-in</div>
-                    <p style={{ fontSize: "9px", color: "#c2cdd2", marginTop: "4px" }}>
-                      Visitor verified via encrypted QR token.
-                    </p>
-                  </div>
-                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: "6px", fontSize: "9px", color: "#2f9e5b" }}>
-                    ✓ 0.4s response
-                  </div>
+                <div className="screen">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/assets/images/showcase/spms-hp.jpeg"
+                    alt="Homepage SPMS Mobile"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
                 </div>
               </div>
             </div>
@@ -392,35 +383,25 @@ export default function PortfolioClient({
                       padding: "24px",
                       borderRadius: "16px",
                       minHeight: "260px",
+                      overflow: "hidden",
                     }}
                   >
-                    <div
-                      style={{
-                        background: "#ffffff",
-                        padding: "20px",
-                        borderRadius: "12px",
-                        boxShadow: "0 12px 32px rgba(0,0,0,0.12)",
-                        maxWidth: "340px",
-                        width: "100%",
-                      }}
-                    >
-                      <div style={{ display: "flex", gap: "5px", marginBottom: "12px" }}>
-                        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ff5f56" }} />
-                        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#ffbd2e" }} />
-                        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#27c93f" }} />
-                      </div>
-                      <h4 style={{ fontSize: "16px", fontWeight: 800, color: "#262510", marginBottom: "4px" }}>
-                        {item.title}
-                      </h4>
-                      <p style={{ fontSize: "12px", color: "#57564c", lineHeight: 1.4 }}>
-                        {item.client} • {item.status}
-                      </p>
-                      <div style={{ marginTop: "12px", display: "flex", flexWrap: "wrap", gap: "4px" }}>
-                        {item.stack.slice(0, 3).map((st) => (
-                          <span key={st} style={{ fontSize: "10px", background: "#f6f6f3", padding: "2px 6px", borderRadius: "4px", color: "#262510", fontWeight: 600 }}>
-                            {st}
-                          </span>
-                        ))}
+                    <div className="window" style={{ width: "90%", position: "relative" }}>
+                      <div className="window-in" style={{ boxShadow: "0 20px 40px -10px rgba(0,0,0,0.4)" }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={
+                            item.id === "spms-lapas-empat-lawang"
+                              ? "/assets/images/showcase/spms-laptop.png"
+                              : item.id === "fotodarikamu"
+                              ? "/assets/images/showcase/fotodarikamu.png"
+                              : idx % 2 === 0
+                              ? "/assets/images/showcase/spms-laptop.png"
+                              : "/assets/images/showcase/fotodarikamu.png"
+                          }
+                          alt={item.title}
+                          style={{ width: "100%", height: "auto", display: "block", objectFit: "cover" }}
+                        />
                       </div>
                     </div>
                   </div>
