@@ -127,7 +127,7 @@ export default function PortfolioClient({
                 width="80"
                 height="80"
                 className="avatar"
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: "cover", objectPosition: "50% 20%" }}
               />
               <div className="avatar-pop" aria-hidden="true">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
